@@ -21,7 +21,7 @@ class BlogManager {
     private var userToken: String = ""
 
     private val authorization: String
-        get() = "Token ${userToken}"        // FIXME: JWT일 경우 "Token" -> "JWT" 변경
+        get() = "JWT ${userToken}"        // FIXME: JWT일 경우 "Token" -> "JWT" 변경
 
     init {
         val interceptor = HttpLoggingInterceptor()
@@ -33,7 +33,7 @@ class BlogManager {
                 .create()
 
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://28e4d5f3.ngrok.io")    // FIXME: 각자의 주소로 변경
+                .baseUrl("http://0b08d1ba.ngrok.io")    // FIXME: 각자의 주소로 변경
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()

@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 
 interface BlogService {
-    @POST("/api-token-auth/")       // FIXME: JWT일 경우 "api-token-auth" -> "api-jwt-auth" 변경
+    @POST("/api-jwt-auth/")       // FIXME: JWT일 경우 "api-token-auth" -> "api-jwt-auth" 변경
     @FormUrlEncoded
     fun getUserToken(
             @Field("username") username: String,
