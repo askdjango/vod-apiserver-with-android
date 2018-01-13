@@ -13,12 +13,13 @@ import ru.gildor.coroutines.retrofit.getOrThrow
 import java.io.FileInputStream
 import com.google.gson.GsonBuilder
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.gildor.coroutines.retrofit.getOrNull
 
 
 class BlogManager {
     private val service: BlogService
 
-    private var userToken: String = ""
+    var userToken: String = ""
 
     private val authorization: String
         get() = "JWT ${userToken}"        // FIXME: JWT일 경우 "Token" -> "JWT" 변경
@@ -33,7 +34,7 @@ class BlogManager {
                 .create()
 
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://0b08d1ba.ngrok.io")    // FIXME: 각자의 주소로 변경
+                .baseUrl("http://d65730a5.ngrok.io")    // FIXME: 각자의 주소로 변경
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
@@ -43,8 +44,8 @@ class BlogManager {
 
     suspend fun getUserToken(username: String, password: String): String {
         val result = service.getUserToken(username, password).awaitResult()
-        val userTokenRepsonse = result.getOrThrow()
-        userToken = userTokenRepsonse.token
+        var userTokenRepsonse = result.getOrNull()
+        userToken = userTokenRepsonse?.token ?: ""
         return userToken
     }
 

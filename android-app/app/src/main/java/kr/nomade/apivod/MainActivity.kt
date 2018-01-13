@@ -14,7 +14,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 class MainActivity : AppCompatActivity() {
     val TAG = MainActivity::class.java.name
 
-    var userToken: String = ""
+    val REQUEST_LOGIN = 1001
 
     private val blogManager by androidLazy { BlogManager() }
     private val blogPostAdapter by androidLazy {
@@ -41,16 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         news_list.adapter = blogPostAdapter
 
-        if ( userToken.isEmpty() ) {
-            launch(UI) {
-                // FIXME: 별도 로그인 창을 통해, 유저로부터 입력을 받아야합니다.
-                val username = "askdjango"
-                val password = "mypassword"
-
-                userToken = blogManager.getUserToken(username, password)
-                toast("userToken : ${userToken}")
-                requestNews()
-            }
+        if ( blogManager.userToken.isEmpty() ) {
+            val intent = Intent(baseContext, LoginActivity::class.java)
+            startActivityForResult(intent, REQUEST_LOGIN)
         }
         else {
             requestNews()
@@ -85,7 +78,13 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if ( requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK ) {
+        if ( requestCode == REQUEST_LOGIN ) {
+            if ( resultCode == RESULT_OK ) {
+                blogManager.userToken = data!!.extras.getString("userToken")
+                requestNews()  // FIXME: 활성화
+            }
+        }
+        else if ( requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK ) {
             val pathList = data!!.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH) as List<String>
             Log.d(TAG, "pathList : ${pathList}")
 
