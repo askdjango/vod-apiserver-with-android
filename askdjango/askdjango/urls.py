@@ -29,6 +29,9 @@ urlpatterns = [
     url(r'^api-jwt-auth/refresh/$', refresh_jwt_token),
     url(r'^api-jwt-auth/verify/$', verify_jwt_token),
 
+    url(r'^rest-auth/', include('rest_auth.urls')),
+
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
 ]
 
