@@ -13,6 +13,13 @@ interface BlogService {
             @Field("password") password: String
     ): Call<UserTokenResponse>
 
+    @POST("/accounts/rest-auth/{provider}/")
+    @FormUrlEncoded
+    fun getUserTokenWithProvider(
+            @Path("provider") provider: String,
+            @Field("access_token") accessToken: String
+    ): Call<UserTokenResponse>
+
     @GET("/blog/api/post/")
     fun getPostList(
             @Header("Authorization") authorization: String,

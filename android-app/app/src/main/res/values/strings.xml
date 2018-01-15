@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ApiVod</string>
+    <string name="app_name">ApiVod by AskDjango</string>
+    <string name="kakao_app_key">9be96953bc3fb04e840394aa5ed6c40b</string>
 </resources>

@@ -12,8 +12,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 
 
 class MainActivity : AppCompatActivity() {
-    val TAG = MainActivity::class.java.name
-
     val REQUEST_LOGIN = 1001
 
     private val blogManager by androidLazy { BlogManager() }
@@ -81,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         if ( requestCode == REQUEST_LOGIN ) {
             if ( resultCode == RESULT_OK ) {
                 blogManager.userToken = data!!.extras.getString("userToken")
-                requestNews()  // FIXME: 활성화
+                requestNews()
             }
         }
         else if ( requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK ) {
@@ -127,5 +125,9 @@ class MainActivity : AppCompatActivity() {
             val response = blogManager.getPostList(page)
             blogPostAdapter.addBlogPostList(response.post_list)
         }
+    }
+
+    companion object {
+        val TAG = MainActivity::class.java.name
     }
 }

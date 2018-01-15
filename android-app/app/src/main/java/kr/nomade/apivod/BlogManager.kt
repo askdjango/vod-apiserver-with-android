@@ -34,7 +34,7 @@ class BlogManager {
                 .create()
 
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://d65730a5.ngrok.io")    // FIXME: 각자의 주소로 변경
+                .baseUrl("http://70b8046f.ngrok.io")    // FIXME: 각자의 주소로 변경
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
@@ -44,6 +44,13 @@ class BlogManager {
 
     suspend fun getUserToken(username: String, password: String): String {
         val result = service.getUserToken(username, password).awaitResult()
+        var userTokenRepsonse = result.getOrNull()
+        userToken = userTokenRepsonse?.token ?: ""
+        return userToken
+    }
+
+    suspend fun getUserTokenWithProvider(provider: String, accessToken: String): String {
+        val result = service.getUserTokenWithProvider(provider, accessToken).awaitResult()
         var userTokenRepsonse = result.getOrNull()
         userToken = userTokenRepsonse?.token ?: ""
         return userToken
@@ -87,5 +94,9 @@ class BlogManager {
     suspend fun deletePost(postId: Int): Boolean {
         val response = service.deletePost(authorization, postId).awaitResponse()
         return response.isSuccessful
+    }
+
+    companion object {
+        val TAG = BlogManager::class.java.name
     }
 }

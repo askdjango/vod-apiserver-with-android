@@ -11,8 +11,6 @@ class BlogPostAdapter(
             val onItemClick: (Int, Post) -> Unit):
         RecyclerView.Adapter<BlogPostAdapter.ViewHolder>() {
 
-    val TAG = BlogPostAdapter::class.java.name
-
     private val items = ArrayList<Post>()
 
     fun insertBlogPost(post: Post) {
@@ -57,4 +55,8 @@ class BlogPostAdapter(
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+
+    companion object {
+        val TAG = BlogPostAdapter::class.java.name
+    }
 }

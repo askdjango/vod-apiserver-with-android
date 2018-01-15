@@ -50,13 +50,11 @@
             android:layout_height="wrap_content"
             android:text="Login"/>
 
-        <Button
+        <com.kakao.usermgmt.LoginButton
             android:id="@+id/kakaologin_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="#ffe100"
-            android:text="Kakao Login"/>
+            android:layout_marginTop="30dp" />
     </LinearLayout>
 
 

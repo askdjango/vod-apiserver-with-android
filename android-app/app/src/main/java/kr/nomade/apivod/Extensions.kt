@@ -9,11 +9,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.support.v7.app.AlertDialog
 import android.text.InputType
+import android.util.Base64
+import android.util.Log
 import android.view.View.*
 import android.widget.EditText
+import com.kakao.util.helper.Utility.getPackageInfo
 import com.squareup.picasso.Picasso
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
@@ -85,4 +91,24 @@ fun View.gone(): View {
 fun View.invisible(): View {
     visibility = INVISIBLE
     return this
+}
+
+
+fun AppCompatActivity.getKeyHash(): String? {
+    val packageInfo = getPackageInfo(this, PackageManager.GET_SIGNATURES)
+    if ( packageInfo == null )
+        return null;
+
+    for( signature in packageInfo.signatures ) {
+        try {
+            val messageDigest = MessageDigest.getInstance("SHA")
+            messageDigest.update(signature.toByteArray())
+            return Base64.encodeToString(messageDigest.digest(), Base64.NO_WRAP)
+        }
+        catch(e: NoSuchAlgorithmException) {
+            Log.w("KeyHash", "Unable to get MessageDigest. signature=${signature}", e)
+        }
+    }
+
+    return null
 }
